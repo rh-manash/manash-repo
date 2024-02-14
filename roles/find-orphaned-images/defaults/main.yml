@@ -1,7 +1,7 @@
 ---
 # defaults file for find-orphaned-images
-cluster_name: dagobah
-dc: dfw3
+cluster_name: "{{ cluster }}"
+dc: "{{ region }}"
 cloud_name: "{{ cluster_name }}-{{ dc }}"
 vault_folder: "overcloud/{{ cloud_name }}"
 git_secret_folder: 'common/git/RedHatTraining'
