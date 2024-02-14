@@ -1,0 +1,6 @@
+vault_url: "http://vault-geonosis-dfw3.ole.redhat.com:8200"
+  #novello-admin token: hvs.CAESIFG3pKBiDkATMolkGWnJVedVXdiP6gNKKrxGkTqSxkfxGh4KHGh2cy52QmVXNFZSOEZ1amlSbHcxOEN3eHFadlo
+  #admin token: hvs.CAESIKGGK_jU8c6ernw0ScrBhV0zfLPL1SxMBMtSzY6hhv3JGh4KHGh2cy5PcGJEcTJZTFVJOHdpMFpKV29CUDVGQVk
+#vault_token: "hvs.CAESIFG3pKBiDkATMolkGWnJVedVXdiP6gNKKrxGkTqSxkfxGh4KHGh2cy52QmVXNFZSOEZ1amlSbHcxOEN3eHFadlo"
+vault_user: novello-admin
+vault_pass: FooFooBarBar22**

@@ -1,0 +1,82 @@
+---
+# tasks file for find-orphaned-images
+- name: Include vault creds
+  ansible.builtin.include_vars: "{{ vault_file }}"
+
+- name: Populate variables
+  set_fact:
+          config_file: "{{ lookup('env', 'OS_CLIENT_CONFIG_FILE') }}"
+          git_secret: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=amelio/data/{{ git_secret_folder }}:ole-config-labenv auth_method=userpass username={{ vault_user }} password={{ vault_pass }} url={{ vault_url }}') }}"
+          git: "{{ 'deploy/factory' if cluster_name == 'geonosis' else 'deploy/cn-prod' if cluster_name == 'malbus' else 'deploy/prod' }}"
+          dt: "{{ ansible_date_time.iso8601 }}"
+
+- name: Create temporary folder for git cloning
+  ansible.builtin.file:
+          path: "{{ repo_dir }}"
+          state: directory
+
+- name: Store git pass in a temporary file
+  ansible.builtin.lineinfile:
+          path: "{{ file1 }}-{{ dt }}"
+          line: "{{ git_secret }}"
+          create: true
+          mode: '0600'
+
+- name: Clone git repo                          
+  ansible.builtin.git:
+          repo: 'git@github.com:RedHatTraining/ole-config-labenv'
+          dest: "{{ repo_dir }}"
+          version: "{{ git }}"
+          key_file: "{{ file1 }}-{{ dt }}"
+
+- name: Include openstack creds
+  ansible.builtin.include_vars: "{{ config_file }}"
+
+- name: Get the list of images from OpenStack
+  openstack.cloud.image_info:
+          cloud: "{{ cloud_name }}"
+  register: var1
+
+- name: Store image names in a temporary file
+  ansible.builtin.lineinfile:
+        path: "{{ file2 }}-{{ dt }}"
+        line: "{{ var1.images | map(attribute='name')| join('\n') }}"
+        insertafter: EOF
+        create: true
+
+- name: Get image names from heat template file and store it in a file
+  ansible.builtin.shell: |
+     # Image files
+     awk '/image:/ {print $2}' {{ git_heatdir }}/*.yaml > {{ file3 }}-{{ dt }}
+     # Images files in a Jinja2 template (SSH images)
+     awk -F"'" "/image_name=/ {print \$2}" {{ git_heatdir }}/*.yaml >> {{ file3 }}-{{ dt }}
+
+
+- name: Exclude specific images from Openstack image list
+  ansible.builtin.shell: egrep -v '{{ exclusion_list }}' {{ file2 }}-{{ dt }} > {{ file4 }}-{{ dt }}
+
+- name: Final list
+  ansible.builtin.shell: |
+     awk 'FNR==NR{a[$1];next}!($1 in a){print}' {{ file3 }}-{{ dt }} {{ file4 }}-{{ dt }} | egrep -v '{{ exclusion_list }}' > /content/Novello_Admins/tmp_logs/{{ cluster_name }}-orphaned-images.txt
+     wc -l /content/Novello_Admins/tmp_logs/{{ cluster_name }}-orphaned-images.txt | awk '{print $1}'
+  register: final_list 
+
+- name: Status
+  ansible.builtin.debug: 
+      msg:
+        - ---------------------------------------------------------------------------
+        - Total Number of orphaned images in {{ cluster_name }} - {{ final_list.stdout }}
+        - Path for the detailed list in /content/Novello_Admins/tmp_logs/{{ cluster_name }}-orphaned-images.txt
+        - ---------------------------------------------------------------------------
+
+- name: Remove temporary files
+  ansible.builtin.file:
+      path: "{{ item }}"
+      state: absent
+  tags: del
+  loop:
+    - "{{ file1 }}-{{ dt }}"
+    - "{{ file2 }}-{{ dt }}"
+    - "{{ file3 }}-{{ dt }}"
+    - "{{ file4 }}-{{ dt }}"
+    - "{{ repo_dir }}"

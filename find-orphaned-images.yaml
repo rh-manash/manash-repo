@@ -1,0 +1,6 @@
+- name: find orphaned images test
+  hosts: localhost
+  tasks:
+    - name: call role
+      include_role:
+        name: find-orphaned-images
