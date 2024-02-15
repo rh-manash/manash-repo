@@ -3,6 +3,11 @@
 - name: Include vault creds
   ansible.builtin.include_vars: "{{ vault_file }}"
 
+- name: Install hvac
+  ansible.builtin.pip:
+     name: hvac
+     state: present
+
 - name: Populate variables
   set_fact:
           config_file: "{{ lookup('env', 'OS_CLIENT_CONFIG_FILE') }}"
