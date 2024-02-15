@@ -1,4 +1,5 @@
 collections:
 - name: openstack.cloud
 - name: community.hashi_vault
+  type: galaxy
 ...
