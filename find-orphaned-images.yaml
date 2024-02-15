@@ -1,5 +1,7 @@
 - name: find orphaned images test
   hosts: localhost
+  collections:
+    - openstack.cloud
   tasks:
     - name: call role
       include_role:
