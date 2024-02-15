@@ -2,6 +2,7 @@
   hosts: localhost
   collections:
     - openstack.cloud
+    - community.hashi_vault
   tasks:
     - name: call role
       include_role:
