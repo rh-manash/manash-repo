@@ -40,7 +40,7 @@
 
 - name: Get the list of images from OpenStack
   openstack.cloud.image_info:
-          cloud: "{{ cloud_name }}"
+          #cloud: "{{ cloud_name }}"
   register: var1
 
 - name: Store image names in a temporary file
