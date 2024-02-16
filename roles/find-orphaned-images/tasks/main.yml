@@ -63,8 +63,8 @@
 
 - name: Final list
   ansible.builtin.shell: |
-     awk 'FNR==NR{a[$1];next}!($1 in a){print}' {{ file3 }}-{{ dt }} {{ file4 }}-{{ dt }} | egrep -v '{{ exclusion_list }}' > /content/Novello_Admins/tmp_logs/{{ cluster_name }}-orphaned-images.txt
-     wc -l /content/Novello_Admins/tmp_logs/{{ cluster_name }}-orphaned-images.txt | awk '{print $1}'
+     awk 'FNR==NR{a[$1];next}!($1 in a){print}' {{ file3 }}-{{ dt }} {{ file4 }}-{{ dt }} | egrep -v '{{ exclusion_list }}' > {{ file5 }}-{{ dt }}
+     wc -l {{ file5 }}-{{ dt }} | awk '{print $1}'
   register: final_list 
 
 - name: Status
@@ -72,7 +72,7 @@
       msg:
         - ---------------------------------------------------------------------------
         - Total Number of orphaned images in {{ cluster_name }} - {{ final_list.stdout }}
-        - Path for the detailed list in /content/Novello_Admins/tmp_logs/{{ cluster_name }}-orphaned-images.txt
+        - Path for the detailed list in {{ file5 }}-{{ dt }}
         - ---------------------------------------------------------------------------
 
 - name: Remove temporary files
@@ -86,3 +86,4 @@
     - "{{ file3 }}-{{ dt }}"
     - "{{ file4 }}-{{ dt }}"
     - "{{ repo_dir }}"
+    - "{{ file5 }}-{{ dt }}"
