@@ -33,6 +33,7 @@
           dest: "{{ repo_dir }}"
           version: "{{ git }}"
           key_file: "{{ file1 }}-{{ dt }}"
+          accept_newhostkey: true
 
 - name: Include openstack creds
   ansible.builtin.include_vars: "{{ config_file }}"
