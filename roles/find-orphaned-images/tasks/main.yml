@@ -72,7 +72,7 @@
       msg:
         - ---------------------------------------------------------------------------
         - Total Number of orphaned images in {{ cluster_name }} - {{ final_list.stdout }}
-        - Path for the detailed list in {{ file5 }}-{{ dt }}
+        - Path for the detailed list is: {{ ansible_facts['fqdn'] }}:{{ file5 }}-{{ dt }}
         - ---------------------------------------------------------------------------
 
 - name: Remove temporary files
@@ -86,4 +86,3 @@
     - "{{ file3 }}-{{ dt }}"
     - "{{ file4 }}-{{ dt }}"
     - "{{ repo_dir }}"
-    - "{{ file5 }}-{{ dt }}"
