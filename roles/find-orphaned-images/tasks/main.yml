@@ -70,10 +70,10 @@
 - name: Status
   ansible.builtin.debug: 
       msg:
-        - ---------------------------------------------------------------------------
+        "- ---------------------------------------------------------------------------
         - Total Number of orphaned images in {{ cluster_name }} - {{ final_list.stdout }}
         - Path for the detailed list is: {{ ansible_facts['fqdn'] }}:{{ file5 }}-{{ dt }}
-        - ---------------------------------------------------------------------------
+        - ---------------------------------------------------------------------------"
 
 - name: Remove temporary files
   ansible.builtin.file:
