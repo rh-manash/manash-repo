@@ -77,7 +77,7 @@
       msg:
         "- ---------------------------------------------------------------------------
         - Total Number of orphaned images in {{ cluster_name }} - {{ final_list.stdout }}
-        - Path for the detailed list is in: {{ file5 }}
+        - Path for the detailed list is in tower server: {{ file5 }}
         - ---------------------------------------------------------------------------"
 
 - name: Remove temporary files
@@ -86,8 +86,8 @@
       state: absent
   tags: del
   loop:
-    - "{{ file1 }}-{{ dt }}"
-    - "{{ file2 }}-{{ dt }}"
-    - "{{ file3 }}-{{ dt }}"
-    - "{{ file4 }}-{{ dt }}"
+    - "{{ file1 }}"
+    - "{{ file2 }}"
+    - "{{ file3 }}"
+    - "{{ file4 }}"
     - "{{ repo_dir }}"
