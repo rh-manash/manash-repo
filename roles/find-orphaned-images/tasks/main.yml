@@ -61,12 +61,16 @@
 - name: Exclude specific images from Openstack image list
   ansible.builtin.shell: egrep -v '{{ exclusion_list }}' {{ file2 }}-{{ dt }} > {{ file4 }}-{{ dt }}
 
+- name: Create folder for final list
+  ansible.builtin.file:
+     name: "{{ final_folder }}"
+     state: directory
+
 - name: Final list
   ansible.builtin.shell: |
      awk 'FNR==NR{a[$1];next}!($1 in a){print}' {{ file3 }}-{{ dt }} {{ file4 }}-{{ dt }} | egrep -v '{{ exclusion_list }}' > {{ file5 }}-{{ dt }}
      wc -l {{ file5 }}-{{ dt }} | awk '{print $1}'
   register: final_list 
-  delegate_to: tower-geonosis-dfw3
 
 - name: Status
   ansible.builtin.debug: 

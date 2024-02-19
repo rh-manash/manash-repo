@@ -13,4 +13,5 @@ file1: '/tmp/git-secret'
 file2: '/tmp/cloud-image-list'
 file3: '/tmp/heat-template-image-list'
 file4: '/tmp/cloud-image-list-final'
-file5: "/var/content/find-orphaned-images-list/{{ cluster_name }}"
+final_folder: '/tmp/orphan-images'
+file5: "{{ final_folder}}/{{ cluster_name }}"
