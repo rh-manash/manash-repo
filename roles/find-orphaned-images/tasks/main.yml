@@ -13,7 +13,6 @@
           config_file: "{{ lookup('env', 'OS_CLIENT_CONFIG_FILE') }}"
           git_secret: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=amelio/data/{{ git_secret_folder }}:ole-config-labenv auth_method=userpass username={{ vault_user }} password={{ vault_pass }} url={{ vault_url }}') }}"
           git: "{{ 'deploy/factory' if cluster_name == 'geonosis' else 'deploy/cn-prod' if cluster_name == 'malbus' else 'deploy/prod' }}"
-          #dt: "{{ ansible_date_time.iso8601 }}"
 
 - name: Create temporary folder for git cloning
   ansible.builtin.file:
@@ -40,7 +39,6 @@
 
 - name: Get the list of images from OpenStack
   openstack.cloud.image_info:
-          #cloud: "{{ cloud_name }}"
   register: var1
 
 - name: Store image names in a temporary file
