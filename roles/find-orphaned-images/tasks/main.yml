@@ -75,7 +75,7 @@
       msg:
         "- ---------------------------------------------------------------------------
         - Total Number of orphaned images in {{ cluster_name }} - {{ fl.stdout }}
-        - Path for the detailed list is in tower server: {{ final_list }}
+        - Path for the detailed list is in tower server: /var/content/find-orphaned-images-list/{{ cluster_name }}
         - ---------------------------------------------------------------------------"
 
 - name: Remove temporary files
