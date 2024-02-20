@@ -9,9 +9,9 @@ vault_file: vault_config.yaml
 repo_dir: '/tmp/ole-config-labenv'
 git_heatdir: "{{ repo_dir }}/data/zdoc/osp_heat_template"   
 exclusion_list: '^[Ee][Xx][0-9][0-9][0-9]|^[Pp][Ee][0-9][0-9][0-9]|^cert-|rhcos|mirror|OCP-client-install|ocp|^rhel-|^octavia-|^cirros-|^sidecar$|tsunami|^node2$|^dle-|^ole-'
-file1: '/tmp/git-secret'
-file2: '/tmp/cloud-image-list'
-file3: '/tmp/heat-template-image-list'
-file4: '/tmp/cloud-image-list-final'
+git_secret_file: '/tmp/git-secret'
+cloud_image_list: '/tmp/cloud-image-list'
+heat_template_image_list: '/tmp/heat-template-image-list'
+cloud_image_list_final: '/tmp/cloud-image-list-final'
 final_folder: '/tmp/orphan-images'
-file5: "{{ final_folder}}/{{ cluster_name }}"
+final_list: "{{ final_folder}}/{{ cluster_name }}"

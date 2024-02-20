@@ -21,7 +21,7 @@
 
 - name: Store git pass in a temporary file
   ansible.builtin.lineinfile:
-          path: "{{ file1 }}"
+          path: "{{ git_secret_file }}"
           line: "{{ git_secret }}"
           create: true
           mode: '0600'
@@ -31,7 +31,7 @@
           repo: 'git@github.com:RedHatTraining/ole-config-labenv'
           dest: "{{ repo_dir }}"
           version: "{{ git }}"
-          key_file: "{{ file1 }}"
+          key_file: "{{ git_secret_file }}"
           accept_newhostkey: true
 
 - name: Include openstack creds
@@ -43,7 +43,7 @@
 
 - name: Store image names in a temporary file
   ansible.builtin.lineinfile:
-        path: "{{ file2 }}"
+        path: "{{ cloud_image_list }}"
         line: "{{ var1.images | map(attribute='name')| join('\n') }}"
         insertafter: EOF
         create: true
@@ -51,13 +51,13 @@
 - name: Get image names from heat template file and store it in a file
   ansible.builtin.shell: |
      # Image files
-     awk '/image:/ {print $2}' {{ git_heatdir }}/*.yaml > {{ file3 }}
+     awk '/image:/ {print $2}' {{ git_heatdir }}/*.yaml > {{ heat_template_image_list }}
      # Images files in a Jinja2 template (SSH images)
-     awk -F"'" "/image_name=/ {print \$2}" {{ git_heatdir }}/*.yaml >> {{ file3 }}
+     awk -F"'" "/image_name=/ {print \$2}" {{ git_heatdir }}/*.yaml >> {{ heat_template_image_list }}
 
 
 - name: Exclude specific images from Openstack image list
-  ansible.builtin.shell: egrep -v '{{ exclusion_list }}' {{ file2 }} > {{ file4 }}
+  ansible.builtin.shell: egrep -v '{{ exclusion_list }}' {{ cloud_image_list }} > {{ cloud_image_list_final }}
 
 - name: Create folder for final list
   ansible.builtin.file:
@@ -66,8 +66,8 @@
 
 - name: Final list
   ansible.builtin.shell: |
-     awk 'FNR==NR{a[$1];next}!($1 in a){print}' {{ file3 }} {{ file4 }} | egrep -v '{{ exclusion_list }}' > {{ file5 }}
-     wc -l {{ file5 }} | awk '{print $1}'
+     awk 'FNR==NR{a[$1];next}!($1 in a){print}' {{ heat_template_image_list }} {{ cloud_image_list_final }} | egrep -v '{{ exclusion_list }}' > {{ final_list }}
+     wc -l {{ final_list }} | awk '{print $1}'
   register: final_list 
 
 - name: Status
@@ -75,7 +75,7 @@
       msg:
         "- ---------------------------------------------------------------------------
         - Total Number of orphaned images in {{ cluster_name }} - {{ final_list.stdout }}
-        - Path for the detailed list is in tower server: {{ file5 }}
+        - Path for the detailed list is in tower server: {{ final_list }}
         - ---------------------------------------------------------------------------"
 
 - name: Remove temporary files
@@ -84,8 +84,8 @@
       state: absent
   tags: del
   loop:
-    - "{{ file1 }}"
-    - "{{ file2 }}"
-    - "{{ file3 }}"
-    - "{{ file4 }}"
+    - "{{ git_secret_file }}"
+    - "{{ cloud_image_list }}"
+    - "{{ heat_template_image_list }}"
+    - "{{ cloud_image_list_final }}"
     - "{{ repo_dir }}"
