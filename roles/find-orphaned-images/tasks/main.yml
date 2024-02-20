@@ -38,6 +38,13 @@
   ansible.builtin.debug: 
           msg: "{{ config_file }}"
 
+- name: print content of config file
+  ansible.builtin.shell: "cat {{ config_file }}"
+  register: testop
+
+- ansible.builtin.debug:
+          msg: "{{ testop.stdout }}"
+
 - name: Include openstack creds
   ansible.builtin.include_vars: "{{ config_file }}"
 
