@@ -68,13 +68,13 @@
   ansible.builtin.shell: |
      awk 'FNR==NR{a[$1];next}!($1 in a){print}' {{ heat_template_image_list }} {{ cloud_image_list_final }} | egrep -v '{{ exclusion_list }}' > {{ final_list }}
      wc -l {{ final_list }} | awk '{print $1}'
-  register: final_list 
+  register: fl
 
 - name: Status
   ansible.builtin.debug: 
       msg:
         "- ---------------------------------------------------------------------------
-        - Total Number of orphaned images in {{ cluster_name }} - {{ final_list.stdout }}
+        - Total Number of orphaned images in {{ cluster_name }} - {{ fl.stdout }}
         - Path for the detailed list is in tower server: {{ final_list }}
         - ---------------------------------------------------------------------------"
 
