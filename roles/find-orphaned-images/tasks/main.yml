@@ -34,6 +34,10 @@
           key_file: "{{ git_secret_file }}"
           accept_newhostkey: true
 
+- name: print config filename
+  ansible.builtin.debug: 
+          msg: "{{ config_file }}"
+
 - name: Include openstack creds
   ansible.builtin.include_vars: "{{ config_file }}"
 
