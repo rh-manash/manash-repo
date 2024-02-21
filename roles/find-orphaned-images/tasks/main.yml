@@ -34,23 +34,12 @@
           key_file: "{{ git_secret_file }}"
           accept_newhostkey: true
 
-- name: print config filename
-  ansible.builtin.debug: 
-          msg: "{{ config_file }}"
-
-- name: print content of config file
-  ansible.builtin.shell: "cat {{ config_file }}"
-  register: testop
-
-- ansible.builtin.debug:
-          msg: "{{ testop.stdout }}"
 
 - name: Include openstack creds
   ansible.builtin.include_vars: "{{ config_file }}"
 
 - name: Get the list of images from OpenStack
   openstack.cloud.image_info:
-          cloud: "{{ cloud_name }}"
   register: var1
 
 - name: Store image names in a temporary file

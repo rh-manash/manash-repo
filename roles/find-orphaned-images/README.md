@@ -43,6 +43,15 @@ Including an example of how to use your role (for instance, with variables passe
          - role: find-orphaned-images
 
 
+How to run it in AAP
+--------------------
+
+After launching job in AAP select below:
+
+      Inventory : Select as per requirement
+      Credentials : Selected Category : OpenStack : Select as per cluster
+      Survey : Select the cluster :  Select as per cluster : Select the region : Select as per DC
+
 License
 ------------------
 BSD-2-Clause
@@ -54,4 +63,3 @@ Author Information
 Ravikumar Karuppuchamy (rkaruppu@redhat.com)
 Forrest Taylor (ftaylor@redhat.com)  
 Manash Sharma (manash@redhat.com)
-
