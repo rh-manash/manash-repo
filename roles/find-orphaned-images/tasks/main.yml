@@ -58,7 +58,7 @@
 
 
 - name: Exclude specific images from Openstack image list
-  ansible.builtin.shell: egrep -v '{{ exclusion_list }}' {{ cloud_image_list }} > {{ cloud_image_list_final }}
+  ansible.builtin.shell: grep -Ev '{{ exclusion_list }}' {{ cloud_image_list }} > {{ cloud_image_list_final }}
 
 - name: Create folder for final list
   ansible.builtin.file:
@@ -67,7 +67,7 @@
 
 - name: Final list
   ansible.builtin.shell: |
-     awk 'FNR==NR{a[$1];next}!($1 in a){print}' {{ heat_template_image_list }} {{ cloud_image_list_final }} | egrep -v '{{ exclusion_list }}' > {{ final_list }}
+     awk 'FNR==NR{a[$1];next}!($1 in a){print}' {{ heat_template_image_list }} {{ cloud_image_list_final }} | grep -Ev '{{ exclusion_list }}' > {{ final_list }}
      wc -l {{ final_list }} | awk '{print $1}'
   register: fl
 
