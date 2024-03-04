@@ -28,7 +28,7 @@
 
 - name: Clone git repo                          
   ansible.builtin.git:
-          repo: 'git@github.com:RedHatTraining/ole-config-labenv'
+          repo: 'git@github.com:RedHatTraining/ole-config-labenv.git'
           #repo: https://{{gituser}}:{{gitpass}}@github.com/RedHatTraining/ole-config-labenv'
           #repo: 'https://rh-manash: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@github.com/rh-manash/manash-repo.git'
           dest: "{{ repo_dir }}"
