@@ -28,12 +28,12 @@
 
 - name: Clone git repo                          
   ansible.builtin.git:
-          #repo: 'git@github.com:RedHatTraining/ole-config-labenv'
+          repo: 'git@github.com:RedHatTraining/ole-config-labenv'
           #repo: https://{{gituser}}:{{gitpass}}@github.com/RedHatTraining/ole-config-labenv'
-          repo: 'https://rh-manash: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@github.com/rh-manash/manash-repo.git'
+          #repo: 'https://rh-manash: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@github.com/rh-manash/manash-repo.git'
           dest: "{{ repo_dir }}"
           version: "{{ git }}"
-          #key_file: "{{ git_secret_file }}"
+          key_file: "{{ cert_key_file }}"
           accept_newhostkey: true
 
 
