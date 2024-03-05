@@ -2,9 +2,12 @@
 # defaults file for find-orphaned-images
 cluster_name: "{{ cluster }}"
 dc: "{{ region }}"
+git_secret_folder: 'common/git/RedHatTraining'
+vault_file: vault_config.yaml
 repo_dir: '/tmp/ole-config-labenv'
 git_heatdir: "{{ repo_dir }}/data/zdoc/osp_heat_template"   
 images_to_keep_regex: '^[Ee][Xx][0-9][0-9][0-9]|^[Pp][Ee][0-9][0-9][0-9]|^cert-|rhcos|mirror|OCP-client-install|ocp|^rhel-|^octavia-|^cirros-|^sidecar$|tsunami|^node2$|^dle-|^ole-'
+git_secret_file: '/tmp/git-secret'
 cloud_image_list: '/tmp/cloud-image-list'
 heat_template_image_list: '/tmp/heat-template-image-list'
 cloud_image_list_final: '/tmp/cloud-image-list-final'

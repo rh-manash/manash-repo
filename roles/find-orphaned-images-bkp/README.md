@@ -1,4 +1,8 @@
 
+# Project Title
+
+A brief description of what this project does and who it's for
+
 find-orphaned-images
 =========
 
@@ -11,11 +15,17 @@ cluster_name: "{{ cluster }}" #openstack cluster in which play should run
 
 dc: "{{ region }}" #dc in which play should run
 
+git_secret_folder: 'common/git/RedHatTraining' #this is in vault where git pass key is stored.
+
+vault_file: vault_config.yaml #config file for vault that will have creds to access vault.
+
 repo_dir: '/tmp/ole-config-labenv' #temp folder in remote machine where repo will be cloned
 
 git_heatdir: "{{ repo_dir }}/data/zdoc/osp_heat_template"  #folder in repo which will be checked for heat templates.
 
 images_to_keep_regex: '^[Ee][Xx][0-9][0-9][0-9]|^[Pp][Ee][0-9][0-9][0-9]|^cert-|rhcos|mirror|OCP-client-install|ocp|^rhel-|^octavia-|^cirros-|^sidecar$|tsunami|^node2$|^dle-|^ole-'  ##images to exclude from checking
+
+git_secret_file: '/tmp/git-secret' #file in which git pass will be stored temporarily.
 
 cloud_image_list: '/tmp/cloud-image-list' #file in which openstack image list will be stored temporarily.
 

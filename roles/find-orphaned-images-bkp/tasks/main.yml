@@ -1,17 +1,41 @@
 ---
 # tasks file for find-orphaned-images
+#- name: Include vault creds
+#  ansible.builtin.include_vars: "{{ vault_file }}"
+
+#- name: Install hvac
+#  ansible.builtin.pip:
+#     name: hvac
+#     state: present
+
 - name: Populate variables
   set_fact:
           config_file: "{{ lookup('env', 'OS_CLIENT_CONFIG_FILE') }}"
+#          git_secret: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=amelio/data/{{ git_secret_folder }}:ole-config-labenv auth_method=userpass username={{ vault_user }} password={{ vault_pass }} url={{ vault_url }}') }}"
           git: "{{ 'deploy/factory' if cluster_name == 'geonosis' else 'deploy/cn-prod' if cluster_name == 'malbus' else 'deploy/prod' }}"
+
+#- name: Create temporary folder for git cloning
+#  ansible.builtin.file:
+#          path: "{{ repo_dir }}"
+#          state: directory
+
+#- name: Store git pass in a temporary file
+#  ansible.builtin.lineinfile:
+#          path: "{{ git_secret_file }}"
+#          line: "{{ git_secret }}"
+#          create: true
+#          mode: '0600'
 
 - name: Clone git repo                          
   ansible.builtin.git:
           repo: 'git@github.com:RedHatTraining/ole-config-labenv.git'
+          #repo: https://{{gituser}}:{{gitpass}}@github.com/RedHatTraining/ole-config-labenv'
+          #repo: 'https://rh-manash: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@github.com/rh-manash/manash-repo.git'
           dest: "{{ repo_dir }}"
           version: "{{ git }}"
           key_file: "{{ cert_key_file }}"
           accept_newhostkey: true
+
 
 - name: Include openstack creds
   ansible.builtin.include_vars: "{{ config_file }}"
@@ -63,6 +87,7 @@
       state: absent
   tags: del
   loop:
+    - "{{ git_secret_file }}"
     - "{{ cloud_image_list }}"
     - "{{ heat_template_image_list }}"
     - "{{ cloud_image_list_final }}"
