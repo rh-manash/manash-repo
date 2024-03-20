@@ -11,6 +11,12 @@
         name: openstacksdk>=1.0.0
   delegate_to: localhost
 
+- name: install openstackclient rpm
+  ansible.builtin.dnf:
+    name: python3-openstackclient
+    state: latest
+  delegate_to: localhost
+
 - name: "Get the image list"
   openstack.cloud.image_info:
   register: imagelist
