@@ -6,6 +6,11 @@
 - name: Include openstack creds
   ansible.builtin.include_vars: "{{ config_file }}"
 
+- name: install correct version of openstacksdk
+  ansible.builtin.pip:
+        name: openstacksdk>=1.0.0
+  delegate_to: localhost
+
 - name: "Get the image list"
   openstack.cloud.image_info:
   register: imagelist
@@ -13,11 +18,6 @@
 - name: "set variable for image list which should be owned by {{ owner_project }}"
   ansible.builtin.set_fact:
         admin_owned_images: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='id') }}"
-
-- name: install correct version of openstacksdk
-  ansible.builtin.pip:
-        name: openstacksdk>=1.0.0
-  delegate_to: localhost
 
 - name: Change ownership of images owned by admin
   #ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
