@@ -16,7 +16,7 @@
 
 - name: Change ownership of images owned by admin
   #ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
-  ansible.builtin.shell: "openstack image show {{ item }} -c owner"
+  ansible.builtin.shell: "/usr/bin/openstack image show 6df863ce-59b2-4c8f-bf28-c09d45d49645 -c owner"
   #environment:
    #   OS_USERNAME: "{{ user }}"
    #   OS_PASSWORD: "{{ passwd }}"
@@ -24,7 +24,7 @@
    #   OS_AUTH_URL: "{{ url }}"
    #   OS_USER_DOMAIN_NAME: Default
    #   OS_PROJECT_DOMAIN_NAME: Default
-  loop: "{{ admin_owned_images }}"
+  #loop: "{{ admin_owned_images }}"
 
      
 
