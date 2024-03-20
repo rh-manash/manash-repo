@@ -1,7 +1,4 @@
 ---
-- name: Include vault vars
-  ansible.builtin.include_vars: "{{ vault_file }}"
-
 - name: Populate openstack username,password and url
   set_fact:
       config_file: "{{ lookup('env', 'OS_CLIENT_CONFIG_FILE') }}"
