@@ -2,6 +2,8 @@
 - name: Change image ownership to DLE-Project1
   hosts: localhost
   connection: local
+  collections:
+    - openstack.cloud
   tasks:
     - name: call role
       include_role:
