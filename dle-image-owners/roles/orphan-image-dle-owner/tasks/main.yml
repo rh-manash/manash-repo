@@ -17,6 +17,7 @@
 - name: install correct version of openstacksdk
   ansible.builtin.pip:
         name: openstacksdk>=1.0.0
+  delegate_to: localhost
 
 - name: Change ownership of images owned by admin
   #ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
