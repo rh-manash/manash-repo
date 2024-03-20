@@ -1,4 +1,4 @@
 collections:
 - name: openstack.cloud
-- name: openstacksdk
-  version: ">=1.0.0"
+#- name: openstacksdk
+#  version: ">=1.0.0"
