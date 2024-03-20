@@ -1,7 +1,7 @@
 ---
 # defaults file for orphan-image-dle-owner
-cluster_name: dagobah
-dc: dfw3
+cluster_name: "{{ cluster }}"
+dc: "{{ region }}"
 cloud_name: "{{ cluster_name }}-{{ dc }}"
 os_project: admin
 owner_project: DLE-Project1
