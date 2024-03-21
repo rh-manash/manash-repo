@@ -26,10 +26,10 @@
   ansible.builtin.shell: openstack image show 6df863ce-59b2-4c8f-bf28-c09d45d49645 -c owner
   #delegate_to: localhost
   environment: 
-      OS_USERNAME: "{{ cloud.devstack.auth.username }}"
-      OS_PASSWORD: "{{ cloud.devstack.auth.password }}"
-      OS_PROJECT_NAME: "{{ cloud.devstack.auth.project_name }}"
-      OS_AUTH_URL: "{{ cloud.devstack.auth.auth_url }}"
+      OS_USERNAME: "{{ clouds.devstack.auth.username }}"
+      OS_PASSWORD: "{{ clouds.devstack.auth.password }}"
+      OS_PROJECT_NAME: "{{ clouds.devstack.auth.project_name }}"
+      OS_AUTH_URL: "{{ clouds.devstack.auth.auth_url }}"
    #   OS_USER_DOMAIN_NAME: Default
    #   OS_PROJECT_DOMAIN_NAME: Default
   #loop: "{{ admin_owned_images }}"
