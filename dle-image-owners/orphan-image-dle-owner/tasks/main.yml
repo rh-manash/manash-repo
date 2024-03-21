@@ -19,10 +19,17 @@
 
 - name: "Set variable for image list which should be owned by {{ owner_project }}"
   ansible.builtin.set_fact:
-        admin_owned_images: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*|*-rhcos$')| map(attribute='id') }}"
+        admin_owned_images: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*|*-rhcos')| map(attribute='id') }}"
 
-- ansible.builtin.debug:
-     msg: "{{ admin_owned_images }}"
+- name: Dump the image list in file {{ local_folder }} of automation controller
+  ansible.builtin.lineinfile:
+        path: "{{ execution_env_path }}"
+        line: "{{ admin_owned_images }}"
+        insertafter: EOF
+        create: True
+
+#- ansible.builtin.debug:
+#     msg: "{{ admin_owned_images }}"
 
 #- name: "Change ownership of images to {{ owner_project }} project"
 #  ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
