@@ -33,8 +33,10 @@
 
 - name: Change ownership of images owned by admin
   #ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
-  ansible.builtin.shell: "openstack image show 6df863ce-59b2-4c8f-bf28-c09d45d49645 -c owner"
-  delegate_to: localhost
+  ansible.builtin.shell: |
+    "source {{ config_file }}"
+    "openstack image show 6df863ce-59b2-4c8f-bf28-c09d45d49645 -c owner"
+  #delegate_to: localhost
   #environment: "{{ lookup('env', 'OS_CLIENT_CONFIG_FILE') }}"
    #   OS_USERNAME: "{{ user }}"
    #   OS_PASSWORD: "{{ passwd }}"
