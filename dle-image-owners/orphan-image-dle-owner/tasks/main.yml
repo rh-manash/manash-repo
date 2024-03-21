@@ -13,12 +13,6 @@
            - openstackclient
   delegate_to: localhost
 
-#- name: install openstackclient rpm
-#  ansible.builtin.yum:
-#    name: python3-openstackclient
-#    state: latest
-#  delegate_to: localhost
-
 - name: "Get the image list"
   openstack.cloud.image_info:
   register: imagelist
@@ -33,15 +27,13 @@
 
 - name: Change ownership of images owned by admin
   #ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
-  ansible.builtin.shell: |
-    "source {{ config_file }}"
-    "openstack image show 6df863ce-59b2-4c8f-bf28-c09d45d49645 -c owner"
+  ansible.builtin.shell: openstack image show 6df863ce-59b2-4c8f-bf28-c09d45d49645 -c owner
   #delegate_to: localhost
-  #environment: "{{ lookup('env', 'OS_CLIENT_CONFIG_FILE') }}"
-   #   OS_USERNAME: "{{ user }}"
-   #   OS_PASSWORD: "{{ passwd }}"
-   #   OS_PROJECT_NAME: "{{ os_project }}"
-   #   OS_AUTH_URL: "{{ url }}"
+  environment: 
+      OS_USERNAME: "{{ username }}"
+      OS_PASSWORD: "{{ password }}"
+      OS_PROJECT_NAME: "{{ project_name }}"
+      OS_AUTH_URL: "{{ auth_url }}"
    #   OS_USER_DOMAIN_NAME: Default
    #   OS_PROJECT_DOMAIN_NAME: Default
   #loop: "{{ admin_owned_images }}"
