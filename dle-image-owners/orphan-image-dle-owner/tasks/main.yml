@@ -22,9 +22,7 @@
         admin_owned_images: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='id') }}"
 
 - name: Change ownership of images owned by admin
-  #ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
-  ansible.builtin.shell: openstack image show 6df863ce-59b2-4c8f-bf28-c09d45d49645 -c owner
-  #delegate_to: localhost
+  ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
   environment: 
       OS_USERNAME: "{{ clouds.devstack.auth.username }}"
       OS_PASSWORD: "{{ clouds.devstack.auth.password }}"
@@ -32,7 +30,7 @@
       OS_AUTH_URL: "{{ clouds.devstack.auth.auth_url }}"
       OS_USER_DOMAIN_NAME: Default
       OS_PROJECT_DOMAIN_NAME: Default
-  #loop: "{{ admin_owned_images }}"
+  loop: "{{ admin_owned_images }}"
 
      
 
