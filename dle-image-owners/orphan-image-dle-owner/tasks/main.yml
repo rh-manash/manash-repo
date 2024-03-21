@@ -27,10 +27,13 @@
   ansible.builtin.set_fact:
         admin_owned_images: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='id') }}"
 
+- name: print
+  ansible.builtin.debug: "{{ config_file }}"
+
 - name: Change ownership of images owned by admin
   #ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
   ansible.builtin.shell: "openstack image show 6df863ce-59b2-4c8f-bf28-c09d45d49645 -c owner"
-  environment: "{{ config_file }}"
+  #environment: "{{ config_file }}"
    #   OS_USERNAME: "{{ user }}"
    #   OS_PASSWORD: "{{ passwd }}"
    #   OS_PROJECT_NAME: "{{ os_project }}"
