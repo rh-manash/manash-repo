@@ -8,14 +8,16 @@
 
 - name: install correct version of openstacksdk
   ansible.builtin.pip:
-        name: openstacksdk>=1.0.0
+        name: 
+           - openstacksdk>=1.0.0
+           - openstackclient
   delegate_to: localhost
 
-- name: install openstackclient rpm
-  ansible.builtin.yum:
-    name: python3-openstackclient
-    state: latest
-  delegate_to: localhost
+#- name: install openstackclient rpm
+#  ansible.builtin.yum:
+#    name: python3-openstackclient
+#    state: latest
+#  delegate_to: localhost
 
 - name: "Get the image list"
   openstack.cloud.image_info:
