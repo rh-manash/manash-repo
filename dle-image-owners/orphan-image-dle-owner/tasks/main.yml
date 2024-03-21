@@ -28,7 +28,7 @@
 - ansible.builtin.shell: "cat {{ config_file }}"
   register: var1
 
-- ansible.builting.debug: 
+- ansible.builtin.debug: 
       msg: "{{ var1 }}"
 
 - name: Change ownership of images owned by admin
