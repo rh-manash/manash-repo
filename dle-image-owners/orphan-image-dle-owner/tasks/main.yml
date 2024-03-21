@@ -28,7 +28,8 @@
         admin_owned_images: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='id') }}"
 
 - name: print
-  ansible.builtin.debug: "{{ config_file }}"
+  ansible.builtin.debug: 
+        msg: "{{ config_file }}"
 
 - name: Change ownership of images owned by admin
   #ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
