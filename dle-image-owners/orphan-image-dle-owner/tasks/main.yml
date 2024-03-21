@@ -30,8 +30,8 @@
       OS_PASSWORD: "{{ clouds.devstack.auth.password }}"
       OS_PROJECT_NAME: "{{ clouds.devstack.auth.project_name }}"
       OS_AUTH_URL: "{{ clouds.devstack.auth.auth_url }}"
-   #   OS_USER_DOMAIN_NAME: Default
-   #   OS_PROJECT_DOMAIN_NAME: Default
+      OS_USER_DOMAIN_NAME: Default
+      OS_PROJECT_DOMAIN_NAME: Default
   #loop: "{{ admin_owned_images }}"
 
      
