@@ -6,6 +6,6 @@ cloud_name: "{{ cluster_name }}-{{ dc }}"
 os_project: admin
 owner_project: DLE-Project1
 #parent path of below needs to be changed in AAP settings , if changed here
-local_folder: "/var/orphan-images/{{ cloud_name }}"
-execution_env_path: "/tmp/orphan/{{ cloud_name }}"
+#local_folder: "/var/orphan-images/{{ cloud_name }}"
+dump_file: "/tmp/orphan/{{ cloud_name }}"
 ...

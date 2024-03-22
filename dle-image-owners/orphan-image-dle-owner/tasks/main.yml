@@ -22,13 +22,14 @@
         admin_owned_images_id: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='id') }}"
         admin_owned_images_name: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='name') }}"
 
-- name: Dump the image list in file {{ local_folder }} of automation controller
+- name: Dump the image list in file {{ dump_file }} of builder-geonosis-dfw3
   ansible.builtin.lineinfile:
-        path: "{{ execution_env_path }}"
+        path: "{{ dump_file }}"
         line: "{{ admin_owned_images_name| join('\n') }}"
         insertafter: EOF
         #mode: '0666'
         create: true
+  delegate_to: builder-geonosis-dfw3.ole.redhat.com
 
 #- ansible.builtin.debug:
 #     msg: "{{ admin_owned_images }}"
