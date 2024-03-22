@@ -1,7 +1,7 @@
 ---
 - name: Change image ownership to DLE-Project1
   hosts: localhost
-  connection: local
+  #connection: local
   collections:
     - openstack.cloud
   tasks:
