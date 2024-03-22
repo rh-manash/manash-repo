@@ -27,7 +27,7 @@
         path: "{{ execution_env_path }}"
         line: "{{ admin_owned_images_name| join('\n') }}"
         insertafter: EOF
-        mode: '0666'
+        #mode: '0666'
         create: true
 
 #- ansible.builtin.debug:
