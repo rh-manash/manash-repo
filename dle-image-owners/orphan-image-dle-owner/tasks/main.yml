@@ -35,7 +35,7 @@
   ansible.builtin.copy:
         src: "{{ dump_file }}"
         dest: /tmp/orphan/
-  delegate_to: builder-geonosis-dfw3.ole.redhat.com
+  delegate_to: automation-controller-geonosis-dfw3.ole.redhat.com
 
 #- ansible.builtin.debug:
 #     msg: "{{ admin_owned_images }}"
