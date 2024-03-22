@@ -35,7 +35,7 @@
   ansible.builtin.copy:
         src: "{{ dump_file }}"
         dest: /tmp/orphan/
-  become: yes
+  #become: yes
   become_user: novello-admin
   delegate_to: automation-controller-geonosis-dfw3.ole.redhat.com
 
