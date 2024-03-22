@@ -11,7 +11,7 @@
         name: 
            - openstacksdk>=1.0.0
            - openstackclient
-  delegate_to: localhost
+  #delegate_to: localhost
 
 - name: Get the image list
   openstack.cloud.image_info:
@@ -31,13 +31,13 @@
         create: true
   #delegate_to: builder-geonosis-dfw3.ole.redhat.com
 
-- name: Copy file to builder-geonosis-dfw3
-  ansible.builtin.copy:
-        src: "{{ dump_file }}"
-        dest: /tmp/orphan/
+#- name: Copy file to builder-geonosis-dfw3
+#  ansible.builtin.copy:
+#        src: "{{ dump_file }}"
+#        dest: /tmp/orphan/
   #become: yes
-  become_user: novello-admin
-  delegate_to: automation-controller-geonosis-dfw3.ole.redhat.com
+  #become_user: novello-admin
+  #delegate_to: automation-controller-geonosis-dfw3.ole.redhat.com
 
 #- ansible.builtin.debug:
 #     msg: "{{ admin_owned_images }}"

@@ -1,6 +1,6 @@
 ---
 - name: Change image ownership to DLE-Project1
-  hosts: localhost
+  hosts: automation-controller-geonosis-dfw3.ole.redhat.com
   #connection: local
   collections:
     - openstack.cloud
