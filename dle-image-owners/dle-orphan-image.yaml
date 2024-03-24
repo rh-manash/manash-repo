@@ -1,6 +1,6 @@
 ---
 - name: Change image ownership to DLE-Project1
-  hosts: builder-dagobah-dfw3.ole.redhat.com
+  hosts: localhost
   #connection: local
   collections:
     - openstack.cloud
