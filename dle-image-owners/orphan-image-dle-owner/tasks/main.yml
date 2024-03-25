@@ -11,7 +11,6 @@
         name: 
            - openstacksdk>=1.0.0
            - openstackclient
-  #delegate_to: localhost
 
 - name: Get the image list
   openstack.cloud.image_info:
@@ -26,40 +25,23 @@
   ansible.builtin.file:
         name: "{{ dump_file_folder }}"
         state: directory
+        mode: '0755'
 
-- name: "Dump the image list in file {{ dump_file }}"
+- name: "Dump the image list in file {{ dump_file }} of {{ dump_host }}"
   ansible.builtin.shell: echo {{ admin_owned_images_name | join(',') }} | tr ',' '\n' > {{ dump_file }}
+  
 
-
-#- name: "Dump the image list in file {{ dump_file }}"
-#  ansible.builtin.lineinfile:
-#        path: "{{ dump_file }}"
-#        line: "{{ admin_owned_images_name| join('\n') }}"
-#        insertafter: EOF
-#        create: true
-  #delegate_to: builder-geonosis-dfw3.ole.redhat.com
-
-#- name: Copy file to builder-geonosis-dfw3
-#  ansible.builtin.copy:
-#        src: "{{ dump_file }}"
-#        dest: /tmp/orphan/
-  #become: yes
-  #become_user: novello-admin
-  #delegate_to: automation-controller-geonosis-dfw3.ole.redhat.com
-
-#- ansible.builtin.debug:
-#     msg: "{{ admin_owned_images }}"
-
-#- name: "Change ownership of images to {{ owner_project }} project"
-#  ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
-#  environment: 
-#      OS_USERNAME: "{{ clouds.devstack.auth.username }}"
-#      OS_PASSWORD: "{{ clouds.devstack.auth.password }}"
-#      OS_PROJECT_NAME: "{{ clouds.devstack.auth.project_name }}"
-#      OS_AUTH_URL: "{{ clouds.devstack.auth.auth_url }}"
-#      OS_USER_DOMAIN_NAME: Default
-#      OS_PROJECT_DOMAIN_NAME: Default
-#  loop: "{{ admin_owned_images }}"
+- name: "Change ownership of images to {{ owner_project }} project"
+  ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
+  environment: 
+      OS_USERNAME: "{{ clouds.devstack.auth.username }}"
+      OS_PASSWORD: "{{ clouds.devstack.auth.password }}"
+      OS_PROJECT_NAME: "{{ clouds.devstack.auth.project_name }}"
+      OS_AUTH_URL: "{{ clouds.devstack.auth.auth_url }}"
+      OS_USER_DOMAIN_NAME: Default
+      OS_PROJECT_DOMAIN_NAME: Default
+  loop: "{{ admin_owned_images_id }}"
+  tags: change_proj_owner
 
      
 
