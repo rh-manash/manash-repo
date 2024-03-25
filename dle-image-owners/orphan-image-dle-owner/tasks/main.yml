@@ -28,7 +28,7 @@
         state: directory
 
 - name: "Dump the image list in file {{ dump_file }}"
-  ansible.builtin.shell: echo {{ admin_owned_images_name | join('\n') }} > {{ dump_file }}
+  ansible.builtin.shell: echo {{ admin_owned_images_name }} | tr ',' '\n' > {{ dump_file }}
 
 #- name: "Dump the image list in file {{ dump_file }}"
 #  ansible.builtin.lineinfile:
