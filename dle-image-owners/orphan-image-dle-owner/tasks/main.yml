@@ -23,12 +23,13 @@
         admin_owned_images_name: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='name') }}"
 
 - name: Dump the image list in file {{ dump_file }}
-  ansible.builtin.blockinfile:
+  ansible.builtin.replace:
         path: "{{ dump_file }}"
-        block: "{{ admin_owned_images_name| join('\n') }}"
-        insertafter: EOF
+        regexp: '*'
+        replace: "{{ admin_owned_images_name| join('\n') }}"
+        #insertafter: EOF
         #mode: '0666'
-        create: true
+        #create: true
   #delegate_to: builder-geonosis-dfw3.ole.redhat.com
 
 #- name: Copy file to builder-geonosis-dfw3
