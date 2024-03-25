@@ -20,7 +20,7 @@
 - name: "Set variable for image list which should be owned by {{ owner_project }}"
   ansible.builtin.set_fact:
         admin_owned_images_id: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='id') }}"
-        admin_owned_images_name: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='name') }}"
+        admin_owned_images_name: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*|*rhcos$')| map(attribute='name') }}"
 
 - name: Create folder
   ansible.builtin.file:
