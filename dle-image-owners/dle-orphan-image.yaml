@@ -8,3 +8,6 @@
     - name: call role
       include_role:
         name: orphan-image-dle-owner
+      apply:
+        tags: change_proj_owner
+      
