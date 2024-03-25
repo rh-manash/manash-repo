@@ -23,9 +23,9 @@
         admin_owned_images_name: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*')| map(attribute='name') }}"
 
 - name: Dump the image list in file {{ dump_file }}
-  ansible.builtin.lineinfile:
+  ansible.builtin.blockinfile:
         path: "{{ dump_file }}"
-        line: "{{ admin_owned_images_name| join('\n') }}"
+        block: "{{ admin_owned_images_name| join('\n') }}"
         insertafter: EOF
         #mode: '0666'
         create: true
