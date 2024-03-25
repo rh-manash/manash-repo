@@ -24,19 +24,17 @@
 
 - name: Create folder
   ansible.builtin.file:
-     name: "{{ dump_file_folder }}"
-     state: directory
+        name: "{{ dump_file_folder }}"
+        state: directory
 
 #- name: Dump the image list in file {{ dump_file }}
 #  ansible.builtin.shell: echo {{ admin_owned_images_name }} > {{ dump_file }}
 
-- name: Dump the image list in file {{ dump_file }}
+- name: "Dump the image list in file {{ dump_file }}"
   ansible.builtin.lineinfile:
         path: "{{ dump_file }}"
-#        regexp: '*'
         line: "{{ admin_owned_images_name| join('\n') }}"
         insertafter: EOF
-        #mode: '0666'
         create: true
   #delegate_to: builder-geonosis-dfw3.ole.redhat.com
 
