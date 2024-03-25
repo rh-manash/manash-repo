@@ -8,5 +8,5 @@ owner_project: DLE-Project1
 #parent path of below needs to be changed in AAP settings , if changed here
 #local_folder: "/var/orphan-images/{{ cloud_name }}"
 dump_file_folder: "/var/orphan"
-dump_file: "/var/orphan/{{ cluster }}"
+dump_file: "/var/orphan/{{ cluster_name }}"
 ...
