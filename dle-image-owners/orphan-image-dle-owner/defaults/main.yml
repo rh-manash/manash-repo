@@ -1,4 +1,4 @@
----
+--
 # defaults file for orphan-image-dle-owner
 cluster_name: "{{ cluster }}"
 dc: "{{ region }}"
@@ -7,5 +7,6 @@ os_project: admin
 owner_project: DLE-Project1
 #parent path of below needs to be changed in AAP settings , if changed here
 #local_folder: "/var/orphan-images/{{ cloud_name }}"
-dump_file: "/var/orphan/{{ cloud_name }}"
+dump_file_folder: "/var/orphan"
+dump_file: "/var/orphan/{{ cluster }}"
 ...
