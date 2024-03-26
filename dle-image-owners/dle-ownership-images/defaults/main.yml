@@ -4,7 +4,7 @@ cluster_name: "{{ cluster }}"
 dc: "{{ region }}"
 os_project: admin
 owner_project: DLE-Project1
-dump_file_folder: '/var/content/orphan'
+dump_file_folder: '/var/content/not-owned-dle-images'
 dump_file: "{{ dump_file_folder }}/{{ cluster_name }}"
 dump_host: 'automation-controller-geonosis-dfw3.ole.redhat.com'
 ...
