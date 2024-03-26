@@ -42,9 +42,9 @@
   when: image_id_ownership_change | length != 0
 
 - name: "Dump the image list in file {{ dump_file }} of {{ dump_host }} (even if list is empty)"
-  ansible.builtin.file: 
+  ansible.builtin.lineinfile: 
         path: "{{ dump_file }}"
-        state: file
+        state: absent
   when: image_id_ownership_change | length == 0
 
 - name: "Change ownership of images to {{ owner_project }} project (if there is any)"
