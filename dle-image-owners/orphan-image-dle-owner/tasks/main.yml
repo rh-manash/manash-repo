@@ -31,20 +31,16 @@
         image_name_ownership_change: "{{ images_no_ownerhip_change | rejectattr('owner','search',new_project_owner_id)| map(attribute='name') }}"
         image_id_ownership_change: "{{ images_no_ownerhip_change | rejectattr('owner','search',new_project_owner_id)| map(attribute='id') }}"
 
-- name: Exit playbook if all the required images has required ownership
-  ansible.builtin.meta: end_play
-  when: image_name_ownership_change | length != 0
-
 - name: Create folder for storing the file of image list
   ansible.builtin.file:
         name: "{{ dump_file_folder }}"
         state: directory
         mode: '0755' 
 
-- name: "Dump the image list in file {{ dump_file }} of {{ dump_host }}"
+- name: "Dump the image list in file {{ dump_file }} of {{ dump_host }} (even if list is empty)"
   ansible.builtin.shell: echo {{ image_name_ownership_change | join(',') }} | tr ',' '\n' > {{ dump_file }}
 
-- name: "Change ownership of images to {{ owner_project }} project"
+- name: "Change ownership of images to {{ owner_project }} project (if there is any)"
   ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
   environment: 
       OS_USERNAME: "{{ clouds.devstack.auth.username }}"
@@ -54,7 +50,3 @@
       OS_USER_DOMAIN_NAME: Default
       OS_PROJECT_DOMAIN_NAME: Default
   loop: "{{ image_id_ownership_change }}"
-  tags: change_proj_owner
-
-     
-
