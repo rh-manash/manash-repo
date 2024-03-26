@@ -16,20 +16,33 @@
   openstack.cloud.image_info:
   register: imagelist
 
-- name: "Set variable for image list which should be owned by {{ owner_project }}"
-  ansible.builtin.set_fact:
-        admin_owned_images_id: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*|.rhcos$')| map(attribute='id') }}"
-        admin_owned_images_name: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*|.rhcos$')| map(attribute='name') }}"
+- name: Get {{ owner_project }} id
+  openstack.cloud.project_info:
+        name: "{{ owner_project }}"
+  register: owner_project_details
 
-- name: Create folder
+- name: "Set variable for: image list which should be owned by {{ owner_project }} , {{ owner_project }} id"
+  ansible.builtin.set_fact:
+        images_no_ownerhip_change: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*|.-rhcos$') }}"
+        new_project_owner_id: "{{ project_details.projects[0]['id'] }}"
+
+- name: "Set variable for image names/ids owned by other owners rather than {{ owner_project }}"
+  ansible.builtin.set_fact:
+        image_name_ownership_change: "{{ images_no_ownerhip_change | rejectattr('owner','search',new_project_owner_id)| map(attribute='name') }}"
+        image_id_ownership_change: "{{ images_no_ownerhip_change | rejectattr('owner','search',new_project_owner_id)| map(attribute='id') }}"
+
+- name: Exit playbook if all the required images has required ownership
+  ansible.builtin.meta: end_play
+  when: image_name_ownership_change | length != 0
+
+- name: Create folder for storing the file of image list
   ansible.builtin.file:
         name: "{{ dump_file_folder }}"
         state: directory
-        mode: '0755'
+        mode: '0755' 
 
 - name: "Dump the image list in file {{ dump_file }} of {{ dump_host }}"
-  ansible.builtin.shell: echo {{ admin_owned_images_name | join(',') }} | tr ',' '\n' > {{ dump_file }}
-  
+  ansible.builtin.shell: echo {{ image_name_ownership_change | join(',') }} | tr ',' '\n' > {{ dump_file }}
 
 - name: "Change ownership of images to {{ owner_project }} project"
   ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
@@ -40,7 +53,7 @@
       OS_AUTH_URL: "{{ clouds.devstack.auth.auth_url }}"
       OS_USER_DOMAIN_NAME: Default
       OS_PROJECT_DOMAIN_NAME: Default
-  loop: "{{ admin_owned_images_id }}"
+  loop: "{{ image_id_ownership_change }}"
   tags: change_proj_owner
 
      
