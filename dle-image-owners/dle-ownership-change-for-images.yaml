@@ -1,0 +1,9 @@
+---
+- name: Change image project ownership
+  hosts: localhost
+  collections:
+    - openstack.cloud
+  tasks:
+    - name: Calling the role to check and change ownership
+      include_role:
+        name: dle-ownership-images

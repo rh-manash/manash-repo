@@ -1,9 +1,0 @@
----
-- name: Change image ownership to DLE-Project1
-  hosts: localhost
-  collections:
-    - openstack.cloud
-  tasks:
-    - name: call role
-      import_role:
-        name: orphan-image-dle-owner
