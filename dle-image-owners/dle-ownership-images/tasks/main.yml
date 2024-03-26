@@ -44,6 +44,7 @@
 - name: "Dump the image list in file {{ dump_file }} of {{ dump_host }} (even if list is empty)"
   ansible.builtin.lineinfile: 
         path: "{{ dump_file }}"
+        regexp: '.*'
         state: absent
   when: image_id_ownership_change | length == 0
 
