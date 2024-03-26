@@ -1,12 +1,9 @@
 ---
-# defaults file for orphan-image-dle-owner
+# defaults file for dle-ownership-images
 cluster_name: "{{ cluster }}"
 dc: "{{ region }}"
-cloud_name: "{{ cluster_name }}-{{ dc }}"
 os_project: admin
 owner_project: DLE-Project1
-#parent path of below needs to be changed in AAP settings , if changed here
-#local_folder: "/var/orphan-images/{{ cloud_name }}"
 dump_file_folder: '/var/content/orphan'
 dump_file: "{{ dump_file_folder }}/{{ cluster_name }}"
 dump_host: 'automation-controller-geonosis-dfw3.ole.redhat.com'
