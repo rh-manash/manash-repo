@@ -24,7 +24,7 @@
 - name: "Set variable for: image list which should be owned by {{ owner_project }} , {{ owner_project }} id"
   ansible.builtin.set_fact:
         images_no_ownerhip_change: "{{ imagelist.images | rejectattr('name','search','^cert-*|^pe[0-9]*|^ex[0-9]*|.-rhcos$') }}"
-        new_project_owner_id: "{{ project_details.projects[0]['id'] }}"
+        new_project_owner_id: "{{ owner_project_details.projects[0]['id'] }}"
 
 - name: "Set variable for image names/ids owned by other owners rather than {{ owner_project }}"
   ansible.builtin.set_fact:
