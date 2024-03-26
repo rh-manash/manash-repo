@@ -40,7 +40,7 @@
 - name: "Dump the image list in file {{ dump_file }} of {{ dump_host }} (even if list is empty)"
   ansible.builtin.shell: echo {{ image_name_ownership_change | join(',') }} | tr ',' '\n' > {{ dump_file }}
 
-- name: "Dump the image list in file {{ dump_file }} of {{ dump_host }} (even if list is empty)"
+- name: "Remove empty lines from file {{ dump_file }} of {{ dump_host }} if image list is empty"
   ansible.builtin.lineinfile: 
         path: "{{ dump_file }}"
         regexp: '.*'
