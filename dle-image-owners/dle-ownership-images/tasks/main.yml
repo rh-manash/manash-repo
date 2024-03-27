@@ -37,15 +37,13 @@
         state: directory
         mode: '0755' 
 
-- name: "Dump the image list in file {{ dump_file }} of {{ dump_host }} (even if list is empty)"
+- name: "Dump the image list in file {{ dump_file }} of {{ dump_host }}"
   ansible.builtin.shell: echo {{ image_name_ownership_change | join(',') }} | tr ',' '\n' > {{ dump_file }}
+  when: image_id_ownership_change | length != 0
 
-#- name: "Remove empty lines from file {{ dump_file }} of {{ dump_host }} if image list is empty"
-#  ansible.builtin.lineinfile: 
-#        path: "{{ dump_file }}"
-#        regexp: '.*'
-#        state: absent
-#  when: image_id_ownership_change | length == 0
+- name: "Remove all contents from {{ dump_file }} of {{ dump_host }} if there are no images to change ownership"
+  ansible.builtin.shell: cat /dev/null > {{ dump_file }}
+  when: image_id_ownership_change | length == 0
 
 - name: "Change ownership of images to {{ owner_project }} project (if there is any)"
   ansible.builtin.shell: "openstack image set --project {{ owner_project }} {{ item }}"
